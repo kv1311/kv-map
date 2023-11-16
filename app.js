@@ -6,7 +6,6 @@ var startCoords;
 const GRAPHHOPPER_API_KEY = "8dda6af4-c857-46de-b071-602ea2fe8004";
 
 const getRouteInfo = async (start, end) => {
-  console.log([start, end]);
   const query = new URLSearchParams({
     instructions: true,
     type: "json",
