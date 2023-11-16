@@ -1,7 +1,6 @@
 import { hospitals } from "./hospitals.js";
 var coords;
 var map;
-var marker;
 var startCoords;
 
 navigator.geolocation.getCurrentPosition((position) => {
@@ -14,14 +13,15 @@ navigator.geolocation.getCurrentPosition((position) => {
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  const hospitalMarkers = hospitals.map((hospital, index) => {
+  hospitals.map((hospital, index) => {
     const latlng = hospital.latlng.split(",");
     const marker = L.marker(latlng).addTo(map);
-    const circle = L.circle(latlng, 500, {
+    L.circle(latlng, 500, {
       color: "#" + Math.floor(Math.random() * 16777215).toString(16),
     }).addTo(map);
     marker.bindPopup(hospital.hospital).openPopup();
   });
+
   function calculateDistances(startCoords, endCoords) {
     const waypoints = [
       L.latLng(startCoords.lat, startCoords.lng),
