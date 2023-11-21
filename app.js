@@ -3,7 +3,22 @@ var coords;
 var map;
 var startCoords;
 
+var distances = [];
+
 const GRAPHHOPPER_API_KEY = "8dda6af4-c857-46de-b071-602ea2fe8004";
+
+const sortDistanceTime = (distance,time) => {
+  distances.push({distance,time});
+
+  distances.sort((a, b) => {
+    if(a.time !== b.time){
+      return a.time - b.time;
+    } else {
+      return a.distance - b.distance;
+    }
+  })
+};
+
 
 const getRouteInfo = async (start, end) => {
   const query = new URLSearchParams({
@@ -17,8 +32,13 @@ const getRouteInfo = async (start, end) => {
     method: "GET",
   });
   const data = await response.json();
-  console.log(data);
+  const distance = data.paths[0].distance;
+  const time = data.paths[0].time;
+  //console.log(data);
+  sortDistanceTime(distance,time);
+  console.log(distances);
 };
+
 
 navigator.geolocation.getCurrentPosition((position) => {
   coords = [position.coords.latitude, position.coords.longitude];
@@ -53,6 +73,7 @@ navigator.geolocation.getCurrentPosition((position) => {
   }
 
   function onMapClick(e) {
+    distances=[];
     if (confirm("Confirm this location?")) {
       startCoords = e.latlng;
       hospitals.forEach((hospital) => {
