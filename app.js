@@ -104,8 +104,7 @@ const calculateDistances = async () => {
       await getRouteInfo(location, end, hospital.hospital, i);
     }
   }
-
-  const locationOneDistancesTimes = sortedDistances.filter(entry => entry.locationIndex === 0);
+  const locationOneDistancesTimes = sortedDistances.filter(entry => entry.locationIndex === 1);
   console.log("Distances and Times for Location 1:", locationOneDistancesTimes);
 };
 
